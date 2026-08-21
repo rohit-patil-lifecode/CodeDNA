@@ -176,6 +176,38 @@ curl -sSfL -o .github/workflows/codedna.yml \
 - Re-running `setup` scaffolds only what's missing
 - Two people both add a rule and it conflicts? **Keep both sides, never the shorter one**
 
+## FAQ
+
+**Q: Is this plugin only about preventing hallucinations?**
+
+**A:** No. Hallucination is only one part of the problem. The bigger issue is preventing Claude from making assumptions and drifting away from the actual architecture and implementation.
+
+**Q: What happens when Claude doesn't have the right context?**
+
+**A:** The next time Claude scans the codebase, if it cannot find the required context, it starts filling the gaps with guesswork. It may still produce a solution that looks correct, but that solution can create a separate branch of logic that is not incrementally aligned with the actual codebase.
+
+Over time, those small deviations accumulate and eventually create garbage, unexpected behavior, and unnecessary rework.
+
+**Q: Why does the architecture and `CLAUDE.md` file matter?**
+
+**A:** Because the important context needs to be preserved and made available to Claude consistently. The architecture and `CLAUDE.md` provide the foundation Claude needs to understand how the codebase is actually structured, where responsibilities belong, and how new changes should fit into the existing system.
+
+**Q: So what does the plugin actually do?**
+
+**A:** It helps maintain that context across development sessions so Claude can reason from the existing architecture instead of repeatedly rediscovering it or inventing its own interpretation.
+
+The overall flow is:
+
+**User request → understand project instructions → locate relevant code → search/read only relevant files → build context incrementally → make changes**
+
+It works **semantically**, rather than trying to dump the entire codebase into the context window.
+
+**Q: What about large codebases?**
+
+**A:** That is actually where this approach becomes more valuable. Instead of continuously sending huge amounts of code as context — increasing input-token costs — Claude can retrieve the relevant architectural knowledge and only inspect the files necessary for the current task.
+
+In other words, **spend tokens on the context that matters, rather than repeatedly spending massive amounts of context trying to rediscover the architecture.** 😄
+
 ## Worth knowing
 
 - **Rules are prose, not enforced.** "Don't import the mailer" is a sentence, not a lint rule. Add `eslint no-restricted-imports`, ArchUnit, or deptrac if you want teeth — that's the biggest upgrade available.
