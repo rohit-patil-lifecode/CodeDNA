@@ -1,0 +1,33 @@
+name: CodeDNA
+on:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # CI runs outside Claude Code, so a plugin install is not on disk here.
+      # Fetch the checker instead. Pin the tag; `main` moves under you.
+      # Vendored the skill into .claude/skills/codedna/ instead? Delete this
+      # step and point the next one at that path.
+      - name: Fetch CodeDNA drift check
+        run: |
+          curl -sSfL -o /tmp/check_drift.py \
+            https://raw.githubusercontent.com/rohit-patil-lifecode/CodeDNA/v1.0.0/scripts/check_drift.py
+
+      - name: CodeDNA drift check
+        # Warns and passes. Add --enforce once the module list is trusted —
+        # a gate that blocks on day one gets bypassed, and a bypassed gate is
+        # green forever. Run measure.py first: if content-free doc edits are
+        # climbing, enforcing harder will not help.
+        env:
+          # The PR title and body, not `git log -1`: on a pull_request the
+          # checked-out HEAD is a synthetic merge commit nobody wrote, so the
+          # skip marker would never be found there.
+          CODEDNA_SKIP_DOCS: ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}
+        run: |
+          python3 /tmp/check_drift.py --root . --base "origin/${{ github.base_ref }}"

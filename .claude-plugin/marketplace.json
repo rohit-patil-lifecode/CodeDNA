@@ -1,0 +1,26 @@
+{
+  "name": "codedna",
+  "description": "CodeDNA — per-module engineering context for Claude Code.",
+  "owner": {
+    "name": "Rohit Patil",
+    "url": "https://github.com/rohit-patil-lifecode"
+  },
+  "plugins": [
+    {
+      "name": "codedna",
+      "source": "./",
+      "description": "Keeps the knowledge Claude cannot read off your code next to the code: per-module boundaries, gotchas, and rationale, with a drift check and a cost-vs-payload measure.",
+      "homepage": "https://github.com/rohit-patil-lifecode/CodeDNA",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": [
+        "documentation",
+        "architecture",
+        "context",
+        "drift",
+        "adr",
+        "monorepo"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "codedna",
+  "displayName": "CodeDNA",
+  "version": "1.0.0",
+  "description": "Keeps the knowledge Claude cannot read off your code next to the code: per-module boundaries, gotchas, and rationale, with a drift check and a cost-vs-payload measure.",
+  "author": {
+    "name": "Rohit Patil",
+    "url": "https://github.com/rohit-patil-lifecode"
+  },
+  "homepage": "https://github.com/rohit-patil-lifecode/CodeDNA",
+  "repository": "https://github.com/rohit-patil-lifecode/CodeDNA",
+  "license": "MIT",
+  "keywords": [
+    "documentation",
+    "architecture",
+    "context",
+    "drift",
+    "adr",
+    "monorepo"
+  ]
+}
